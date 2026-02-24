@@ -4,10 +4,10 @@ import fitz
 from paddleocr import LayoutDetection
 
 class LayoutDetect:
-    TEXT_LABELS = {"text", "title", "reference", "paragraph", "header", "abstract", "table_caption", "table_footnote", "formula_caption","figure_title"}
+    TEXT_LABELS = {"text", "doc_title", "reference", "reference_content", "paragraph_title", "header", "abstract", "figure_title", "vertical_text", "algorithm"}
     TABLE_LABELS = {"table"}
-    MATH_LABELS = {"formula", "equation", "inline_formula", "displayed_formula"}
-    UNWANTED_LABELS = {"aside_text", "header_image", "footer_image", "formula_number", "number", "seal", "image", "content", "footnote", "chart"}
+    MATH_LABELS = {"inline_formula", "display_formula"}
+    UNWANTED_LABELS = {"aside_text", "header_image", "footer_image", "formula_number", "number", "seal", "image", "content", "footnote", "vision_footnote", "footer", "chart"}
     
     def __init__(self, model = "PP-DocLayoutV3"):
         self.model = LayoutDetection(model_name=model)

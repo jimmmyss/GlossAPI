@@ -49,8 +49,10 @@ class SectionCrop:
         return cropped_images
 
     @staticmethod
-    def save_images(cropped_images, output_path, pdf_name):
+    def save_images(cropped_images, output_path, input_path):
         os.makedirs(output_path, exist_ok=True)
+        pdf_name = os.path.splitext(os.path.basename(input_path))[0]
+        
         for i, crop_data in enumerate(cropped_images, start=1):
             label = crop_data["label"]
             image = crop_data["image"]
@@ -206,39 +208,70 @@ class TableExtract:
     def save_results(self, output_path):
         if not self.results:
             return
-        pdf_name = os.path.splitext(os.path.basename(self.input_path))[0]
-        SectionCrop.save_images(self.results, output_path, pdf_name)
+        SectionCrop.save_images(self.results, output_path, self.input_path)
 
 class VLMExtract:
     def __init__(self):
         self.input_path = None
         self.cropped_images = None
 
-        model_name = 'deepseek-ai/DeepSeek-OCR-2' 
+        # model_name = 'deepseek-ai/DeepSeek-OCR-2' 
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-        self.model = AutoModel.from_pretrained(model_name, trust_remote_code=True, use_safetensors=True)
+        # self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=False)
+        # self.model = AutoModel.from_pretrained(model_name, trust_remote_code=True, use_safetensors=True)
 
-        self.dtype = torch.float16
-        if torch.cuda.is_available():
-            self.device = "cuda"
-            if torch.cuda.is_bf16_supported():
-                self.dtype = torch.bfloat16
-        else:
-            self.device = "cpu"
+        # self.dtype = torch.float16
+        # if torch.cuda.is_available():
+        #     self.device = "cuda"
+        #     if torch.cuda.is_bf16_supported():
+        #         self.dtype = torch.bfloat16
+        # else:
+        #     self.device = "cpu"
 
-        self.model = self.model.eval().to(self.device).to(self.dtype)
+        # self.model = self.model.eval().to(self.device).to(self.dtype)
 
-        self.prompt = "<image>\n<|grounding|>Convert the document to markdown. "
-        # self.image_file = 'your_image.jpg'
-        # self.output_path = 'your/output/dir'        
+        # self.prompt = "<image>\n<|grounding|>Convert the document to markdown. "
+        # # self.image_file = 'your_image.jpg'
+        # # self.output_path = 'your/output/dir'        
 
 
     def partial_extract(self, empty_coordinates):
         self.cropped_images = SectionCrop.crop(empty_coordinates)
         if self.cropped_images:
             self.input_path = empty_coordinates[0]["input_path"]
-        # TODO: run VLM inference on self.cropped_images
+                
+        results = []
+        for crop_data in self.cropped_images:
+            # image = crop_data["image"]
+            
+            # # Since model.infer expects a file path, save the PIL image to a temp file
+            # with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp_file:
+            #     image.save(tmp_file.name)
+            #     tmp_path = tmp_file.name
+                
+            # try:
+            #     res = self.model.infer(
+            #         self.tokenizer, 
+            #         prompt=self.prompt, 
+            #         image_file=tmp_path, 
+            #         output_path="", # Empty because we don't need to save the visual result unless specified
+            #         base_size=1024, 
+            #         image_size=768, 
+            #         crop_mode=True, 
+            #         save_results=False, 
+            #         test_compress=True
+            #     )
+            #     crop_data["text"] = res
+            # except Exception as e:
+            #     crop_data["text"] = f"Error: {e}"
+            # finally:
+            #     os.remove(tmp_path)
+            
+            # Placeholder text since inference is disabled
+            crop_data["text"] = "[VLM Inference Disabled]"
+            results.append(crop_data)
+                
+        return results
 
     def full_extract(self):
         pass
@@ -248,22 +281,4 @@ class VLMExtract:
         if not self.cropped_images:
             return
         
-        os.makedirs(output_path, exist_ok=True)
-        
-        pdf_name = os.path.splitext(os.path.basename(self.input_path))[0]
-        
-        for crop_data in self.cropped_images:
-            page_idx = crop_data["page_idx"]
-            order = crop_data["order"]
-            label = crop_data["label"]
-            image = crop_data["image"]
-            
-            filename = f"{pdf_name}_p{page_idx}_o{order}_{label}.png"
-            image_path = os.path.join(output_path, filename)
-            image.save(image_path)
-
-    # VLM
-    def extract(self):
-        pass
-
-        res = self.model.infer(self.tokenizer, prompt=self.prompt, image_file=self.image_file, output_path = self.output_path, base_size = 1024, image_size = 768, crop_mode = True, save_results = True, test_compress = True)
+        SectionCrop.save_images(self.cropped_images, output_path, self.input_path)
