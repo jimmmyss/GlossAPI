@@ -4,7 +4,7 @@
 - **Text** → PyMuPDF  
 - **Tables** → ?Table Transformer?, ??SLANet??, ???StructEqTable-Deploy???
 - **Math** → PP-FormulaNet_plus-L, ?UniMERNet?
-- **VLM** → DeepSeek-OCR-2  
+- **VLM** → PaddleOCR-VL-1.5  
 
 # Progress
 
@@ -13,3 +13,4 @@
 - **Table Extraction** → 0%
 - **Math** → 20%
 - **VLM** → 10%
+- Post Process → 0%
