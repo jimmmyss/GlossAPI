@@ -3,7 +3,7 @@
 - **Layout** → PP-DocLayoutV3  
 - **Text** → PyMuPDF  
 - **Tables** → ?Table Transformer?, ??SLANet??, ???StructEqTable-Deploy???
-- **Math** → PP-FormulaNet_plus-L, ?UniMERNet?
+- **Math** → PP-FormulaNet_plus-L
 - **VLM** → PaddleOCR-VL-1.5  
 
 # Progress
