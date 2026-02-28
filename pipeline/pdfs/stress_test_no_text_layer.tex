@@ -1,0 +1,99 @@
+\documentclass[10pt, a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+% --- Header and Footer Setup ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Pipeline Stress Test v2.2}
+\fancyhead[R]{Extraction Benchmark}
+\fancyfoot[C]{Page \thepage}
+\fancyfoot[R]{\textit{Technical Validation}}
+
+\title{Comprehensive PDF Extraction Benchmark}
+\author{Data Integrity Department}
+\date{February 24, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Standard Text Layer}
+This section contains standard, selectable text. Your pipeline should easily extract this paragraph. The goal is to establish a baseline for text-to-coordinate mapping. Recent studies \cite{Extraction2026, Smith2025} suggest that hybrid parsers outperform pure OCR models in structured documents.
+
+% Formula 1: Algebra
+The first mathematical test is the Quadratic Formula, which includes a square root and a fraction:
+\begin{equation}
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{equation}
+
+\section{Tabular and Visual Data}
+Below is a table with mixed data types. Testing the structural integrity of your output (CSV/JSON/Markdown) is key here. As referenced in the data standards manual \cite{ISO2024}, cell alignment must be preserved.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|}
+\hline
+\textbf{Test ID} & \textbf{Status} & \textbf{Confidence Score} \\ \hline
+TX-900 & PASS & 0.998 \\ \hline
+TX-901 & FAIL & 0.450 \\ \hline
+TX-902 & PENDING & N/A \\ \hline
+\end{tabular}
+\caption{Validation results for automated parsing units.}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.25\textwidth]{example-image-a}
+\caption{Reference image for spatial bounding box detection.}
+\end{figure}
+
+% Formula 2: Calculus/Summation
+The second formula tests Greek letters and summation limits:
+\[ \Phi = \sum_{i=1}^{n} \frac{\alpha_i}{\beta_i + \gamma} \]
+
+\section{Conclusion and References}
+Our final mathematical test is the definition of a limit, placed just before the bibliography to test proximity parsing:
+
+% Formula 3: Limits
+\[ \lim_{x \to \infty} \left( 1 + \frac{1}{x} \right)^x = e \]
+
+Success is defined by the accurate extraction of the multi-entry bibliography below and the correct resolution of internal links.
+
+\begin{thebibliography}{9}
+\bibitem{Extraction2026} 
+Alpha, B. \& Gamma, D. (2026). \textit{Heuristics for Non-Standard PDF Parsing}. OCR Quarterly, 22(1).
+
+\bibitem{Smith2025} 
+Smith, J., et al. (2025). \textit{The Evolution of Neural Document Analysis}. AI Review, 15(4), 200-215.
+
+\bibitem{ISO2024} 
+ISO Standard 32000-2. (2024). \textit{Document Management — Portable Document Format — Part 2: PDF 2.0}.
+
+\bibitem{Zhang2023} 
+Zhang, L. (2023). \textit{Challenges in Table Extraction from Unstructured Data}. Data Engineering Today.
+\end{thebibliography}
+
+\vspace{0.5cm}
+
+\section{The Glyph Challenge (OCR Test)}
+The following image is a screenshot of a text block. It contains zero digital text layer information. If your pipeline relies solely on the PDF text stream, this section will return empty.
+
+\vspace{0.5cm}
+
+\begin{figure}[h]
+\centering
+% Replace 'glyph_screenshot.png' with your actual image file name
+\includegraphics[width=0.9\textwidth]{glyph.png}
+\caption{Rasterized text for visual extraction testing.}
+\end{figure}
+
+\end{document}
