@@ -11,6 +11,7 @@
 - **Layout Detection** → 100%
 - **Text Extraction** → 100%
 - **Table Extraction** → 0%
-- **Math** → 20%
-- **VLM** → 10%
-- Post Process → 0%
+- **Math** → 100%
+- **VLM Partial** → 100%
+- **VLM Full** → 50%
+- Post Process → 50%
