@@ -11,6 +11,9 @@ pipeline/
 |   ├── <name>_math_coordinates.json/
 |   ├── <name>_text_empty_coordinates.json/
 |   ├── <name>_text_results.json/
+|   ├── <name>_text__empty_results.json/
+|   ├── <name>_math_results.json/
+|   ├── <name>_table_results.json/
 │   └── <name>_<page>_res.png/
 └── pdfs/
 ```

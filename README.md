@@ -15,3 +15,9 @@
 - **VLM Partial** → 100%
 - **VLM Full** → 50%
 - Post Process → 50%
+
+# To-Do
+
+- **Model Fireup Order**
+- **Batch Calculation based on VRAM(if there is a gpu)**
+- **?Multiproccessing?**
