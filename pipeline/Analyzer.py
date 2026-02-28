@@ -1,19 +1,16 @@
 import fitz
 
 class Analyze:
-    def __init__(self):
-        pass
-
-    def has_text_layer(self, input_path):
+    @staticmethod
+    def is_scanned(input_path):
         with fitz.open(input_path) as pdf:
+            img_area, text_area = 0, 0
             for page in pdf:
-                if page.get_text().strip():
-                    return True
-            return False
-
-    def has_alligned_text_layer(self, input_path, layout_coordinates):
-        return True
-
-    # This function will check the empty text_results_empty and if there are boxes one inside the other it will keep only the small boxes inside
-    def has_overlapping_boxes(self):
-        return True
+                for img in page.get_image_info():
+                    r = fitz.Rect(img["bbox"])
+                    img_area += abs(r.width * r.height)
+                for blk in page.get_text("blocks"):
+                    if blk[6] == 0:  # Text block
+                        r = fitz.Rect(blk[:4])
+                        text_area += abs(r.width * r.height)
+            return text_area < img_area
