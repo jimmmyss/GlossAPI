@@ -126,6 +126,25 @@
                 "result": "The first mathematical test is the Quadratic Formula, which includes a square root and a fraction:"
             },
             {
+                "order": 6,
+                "pdf_bbox": [
+                    249.40614986339602,
+                    287.96238030730404,
+                    343.3707914952967,
+                    313.45904939701325
+                ],
+                "box": [
+                    499,
+                    576,
+                    687,
+                    627
+                ],
+                "label": "display_formula",
+                "score": 0.9282869696617126,
+                "cls_id": 5,
+                "result": "x={\\frac{-b\\pm{\\sqrt{b^{2}-4a c}}}{2a}}"
+            },
+            {
                 "order": 8,
                 "pdf_bbox": [
                     68.97404545320371,
@@ -221,6 +240,25 @@
                 "result": "The second formula tests Greek letters and summation limits:"
             },
             {
+                "order": 15,
+                "pdf_bbox": [
+                    261.90144795274455,
+                    617.4193397213897,
+                    331.8751172530961,
+                    647.4154210034005
+                ],
+                "box": [
+                    524,
+                    1235,
+                    664,
+                    1295
+                ],
+                "label": "display_formula",
+                "score": 0.9201304912567139,
+                "cls_id": 5,
+                "result": "\\Phi=\\sum_{i=1}^{n}{\\frac{\\alpha_{i}}{\\beta_{i}+\\gamma}}"
+            },
+            {
                 "order": 16,
                 "pdf_bbox": [
                     69.47385737677766,
@@ -257,6 +295,25 @@
                 "score": 0.9203770160675049,
                 "cls_id": 22,
                 "result": "Our final mathematical test is the definition of a limit, placed just before the bibliography to test proximity parsing:"
+            },
+            {
+                "order": 18,
+                "pdf_bbox": [
+                    252.40502140483966,
+                    717.906212016126,
+                    342.37116764814886,
+                    744.9026851699358
+                ],
+                "box": [
+                    505,
+                    1436,
+                    685,
+                    1490
+                ],
+                "label": "display_formula",
+                "score": 0.9167969822883606,
+                "cls_id": 5,
+                "result": "\\lim_{x\\to\\infty}\\left(1+\\frac{1}{x}\\right)^x=e"
             },
             {
                 "order": 19,
@@ -479,7 +536,7 @@
                 "label": "paragraph_title",
                 "score": 0.8627886176109314,
                 "cls_id": 17,
-                "result": ""
+                "result": "3 The Glyph Challenge (OCR Test)"
             },
             {
                 "order": 10,
@@ -498,7 +555,7 @@
                 "label": "text",
                 "score": 0.9071640968322754,
                 "cls_id": 22,
-                "result": ""
+                "result": "The following paragraph is rendered as a vector graphic. It lacks a standard ‘ToUnicode’ mapping. If you try to select this text in a standard PDF viewer, it may behave like an image. Your pipeline must use OCR to \"read\" this:"
             },
             {
                 "order": 11,
@@ -517,7 +574,7 @@
                 "label": "text",
                 "score": 0.9298326373100281,
                 "cls_id": 22,
-                "result": ""
+                "result": "This paragraph is a \"pure glyph\" test. It is contained within a TikZ node, effectively treating the text as a series of paths or a graphical object rather than a standard text stream. If your pipeline relies solely on the PDF text layer, this section will return as an empty string or null. Successful extraction proves your system can trigger OCR when the text layer is missing or obfuscated."
             },
             {
                 "order": 13,

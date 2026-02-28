@@ -2,6 +2,7 @@ import os
 import re
 import json
 import math
+import numpy as np
 import tempfile
 import torch
 import fitz # PyMuPDF
@@ -105,8 +106,6 @@ class TextExtract:
     def extract(self, layout_results):
         final_output = []
         empty_output = []
-        if not layout_results:
-            return [], []
             
         self.input_path = layout_results[0]["input_path"]
         
@@ -129,9 +128,9 @@ class TextExtract:
                 
                 if text_list:
                     raw_text = " ".join(text_list)
-                    region["text"] = self.post_processor.process(raw_text)
+                    region["result"] = self.post_processor.process(raw_text)
                 else:
-                    region["text"] = ""
+                    region["result"] = ""
                     page_empty_boxes.append(region.copy())
                 
                 page_boxes.append(region)
@@ -200,9 +199,6 @@ class MathExtract:
         self.input_path = None
 
     def extract(self, math_coordinates):
-        if not math_coordinates:
-            return []
-            
         self.input_path = math_coordinates[0]["input_path"]
         cropped_info = SectionCrop.crop(math_coordinates)
         if not cropped_info:
@@ -211,9 +207,10 @@ class MathExtract:
         # FormulaRecognition only supports numpy.ndarray or str
         images = [np.array(c["image"]) for c in cropped_info]
         # predict returns a list of results. For PP-FormulaNet, it's a list of strings (LaTeX formulas).
-        predictions = self.model.predict(input=images, batch_size=1)
+        predictions = self.model.predict(input=images, batch_size=4)
         
         # Mapping predictions back to the original structure
+        predictions = list(predictions)
         final_output = []
         pred_idx = 0
         for page_data in math_coordinates:
@@ -222,11 +219,10 @@ class MathExtract:
             for box in page_data.get("boxes", []):
                 new_box = box.copy()
                 if pred_idx < len(predictions):
-                    # Fill the 'text' field with the model's prediction
-                    new_box["text"] = predictions[pred_idx]
+                    new_box["result"] = predictions[pred_idx].json["res"].get("rec_formula", "")
                     pred_idx += 1
                 else:
-                    new_box["text"] = ""
+                    new_box["result"] = ""
                 new_boxes.append(new_box)
             new_page["boxes"] = new_boxes
             final_output.append(new_page)
@@ -243,7 +239,7 @@ class MathExtract:
         json_path = os.path.join(output_path, f"{pdf_name}_math_results.json")
         
         with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(self.results, f, ensure_ascii=False, indent=4)
+            f.write(json.dumps(self.results, ensure_ascii=False, indent=4).replace('\\\\', '\\'))
 
 class VLMExtract:
     def __init__(self):
@@ -252,19 +248,35 @@ class VLMExtract:
         self.cropped_images = None       
 
     def partial_extract(self, empty_coordinates):
-        self.cropped_images = SectionCrop.crop(empty_coordinates)
-        if self.cropped_images:
-            self.input_path = empty_coordinates[0]["input_path"]
-                
-        results = []
-        for crop_data in self.cropped_images:
-            output = self.model.predict(input=crop_data["image"])
-            # Assuming output contains a textual result or markdown format
-            crop_data["text"] = output[0].get("text", "") 
-            results.append(crop_data)
-                
-        self.empty_results = results
-        return results
+        self.input_path = empty_coordinates[0]["input_path"]
+        cropped_info = SectionCrop.crop(empty_coordinates)
+        self.cropped_images = cropped_info
+        if not cropped_info:
+            return []
+
+        images=[np.array(c["image"]) for c in cropped_info]
+        predictions = self.model.predict(input=images)
+
+        final_output = []
+        pred_idx = 0
+        for page_data in empty_coordinates:
+            new_page = page_data.copy()
+            new_boxes = []
+            for box in page_data.get("boxes", []):
+                new_box = box.copy()
+                if pred_idx < len(predictions):
+                    res_json = predictions[pred_idx].json["res"]
+                    blocks = res_json.get("parsing_res_list", [])
+                    new_box["result"] = "\n".join(b["block_content"] for b in blocks if b.get("block_content"))
+                    pred_idx += 1
+                else:
+                    new_box["result"] = ""
+                new_boxes.append(new_box)
+            new_page["boxes"] = new_boxes
+            final_output.append(new_page)
+
+        self.empty_results = final_output
+        return final_output
 
     def full_extract(self, input_path):
         self.input_path = input_path
@@ -295,3 +307,61 @@ class VLMExtract:
         for res in self.full_results:
             res.save_to_json(save_path=output_path)
             res.save_to_markdown(save_path=output_path)
+
+
+class Merge:
+    @staticmethod
+    def merge_results(text_results=None, vlm_results=None, math_results=None):
+        merged = {}
+        for result_list in [text_results, vlm_results, math_results]:
+            if not result_list:
+                continue
+            for page_data in result_list:
+                page_idx = page_data["page_idx"]
+                if page_idx not in merged:
+                    merged[page_idx] = {
+                        "input_path": page_data["input_path"],
+                        "page_idx": page_idx,
+                        "image_size": page_data.get("image_size"),
+                        "pdf_size": page_data.get("pdf_size"),
+                        "boxes": {}
+                    }
+                for box in page_data.get("boxes", []):
+                    order = box["order"]
+                    if order not in merged[page_idx]["boxes"] or not merged[page_idx]["boxes"][order].get("result"):
+                        merged[page_idx]["boxes"][order] = box
+        final_pages = []
+        for page_idx in sorted(merged.keys()):
+            page = merged[page_idx]
+            sorted_boxes = [page["boxes"][o] for o in sorted(page["boxes"].keys())]
+            final_pages.append({
+                "input_path": page["input_path"],
+                "page_idx": page_idx,
+                "image_size": page["image_size"],
+                "pdf_size": page["pdf_size"],
+                "boxes": sorted_boxes
+            })
+        return final_pages
+
+    @staticmethod
+    def markdown_results(merged_pages):
+        lines = []
+        for page in merged_pages:
+            for box in page["boxes"]:
+                result = box.get("result", "").strip()
+                if result:
+                    lines.append(result)
+        return "\n\n".join(lines)
+
+    @staticmethod
+    def save_results(input_path, output_path, merged_pages, markdown):
+        os.makedirs(output_path, exist_ok=True)
+        pdf_name = os.path.splitext(os.path.basename(input_path))[0]
+
+        json_path = os.path.join(output_path, f"{pdf_name}.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(merged_pages, f, ensure_ascii=False, indent=4)
+
+        md_path = os.path.join(output_path, f"{pdf_name}.md")
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write(markdown)

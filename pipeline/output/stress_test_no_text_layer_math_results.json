@@ -27,7 +27,8 @@
                 ],
                 "label": "display_formula",
                 "score": 0.9282869696617126,
-                "cls_id": 5
+                "cls_id": 5,
+                "result": "x={\frac{-b\pm{\sqrt{b^{2}-4a c}}}{2a}}"
             },
             {
                 "order": 15,
@@ -45,7 +46,8 @@
                 ],
                 "label": "display_formula",
                 "score": 0.9201304912567139,
-                "cls_id": 5
+                "cls_id": 5,
+                "result": "\Phi=\sum_{i=1}^{n}{\frac{\alpha_{i}}{\beta_{i}+\gamma}}"
             },
             {
                 "order": 18,
@@ -63,7 +65,8 @@
                 ],
                 "label": "display_formula",
                 "score": 0.9167969822883606,
-                "cls_id": 5
+                "cls_id": 5,
+                "result": "\lim_{x\to\infty}\left(1+\frac{1}{x}\right)^x=e"
             }
         ]
     }

@@ -28,7 +28,7 @@
                 "label": "paragraph_title",
                 "score": 0.8627886176109314,
                 "cls_id": 17,
-                "result": ""
+                "result": "3 The Glyph Challenge (OCR Test)"
             },
             {
                 "order": 10,
@@ -47,7 +47,7 @@
                 "label": "text",
                 "score": 0.9071640968322754,
                 "cls_id": 22,
-                "result": ""
+                "result": "The following paragraph is rendered as a vector graphic. It lacks a standard ‘ToUnicode’ mapping. If you try to select this text in a standard PDF viewer, it may behave like an image. Your pipeline must use OCR to \"read\" this:"
             },
             {
                 "order": 11,
@@ -66,7 +66,7 @@
                 "label": "text",
                 "score": 0.9298326373100281,
                 "cls_id": 22,
-                "result": ""
+                "result": "This paragraph is a \"pure glyph\" test. It is contained within a TikZ node, effectively treating the text as a series of paths or a graphical object rather than a standard text stream. If your pipeline relies solely on the PDF text layer, this section will return as an empty string or null. Successful extraction proves your system can trigger OCR when the text layer is missing or obfuscated."
             }
         ]
     }
