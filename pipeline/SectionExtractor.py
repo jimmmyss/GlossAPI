@@ -7,8 +7,7 @@ import torch
 import fitz # PyMuPDF
 from PIL import Image
 from PostProcess import PostProcess
-from paddleocr import FormulaRecognition
-from transformers import AutoModel, AutoTokenizer
+from paddleocr import FormulaRecognition, PaddleOCRVL
 
 class SectionCrop:
     @staticmethod
@@ -60,22 +59,6 @@ class SectionCrop:
             filename = f"{pdf_name}_{label}_{i}.png"
             image_path = os.path.join(output_path, filename)
             image.save(image_path)
-
-
-class MathExtract:
-    def __init__(self, model="PP-FormulaNet_plus-L"):
-        self.model = FormulaRecognition(model_name=model)
-        self.results = None
-
-    def extract(self, math_coordinates):
-        cropped = SectionCrop.crop(math_coordinates)
-        images = [c["image"] for c in cropped]
-        output = self.model.predict(input=images, batch_size=1)
-        self.results = output
-        return output
-
-    def save_results(self, output_path):
-        pass
 
 class TextExtract:
     def __init__(self):
@@ -210,30 +193,63 @@ class TableExtract:
             return
         SectionCrop.save_images(self.results, output_path, self.input_path)
 
+class MathExtract:
+    def __init__(self, model="PP-FormulaNet_plus-L"):
+        self.model = FormulaRecognition(model_name=model)
+        self.results = None
+        self.input_path = None
+
+    def extract(self, math_coordinates):
+        if not math_coordinates:
+            return []
+            
+        self.input_path = math_coordinates[0]["input_path"]
+        cropped_info = SectionCrop.crop(math_coordinates)
+        if not cropped_info:
+            return []
+            
+        # FormulaRecognition only supports numpy.ndarray or str
+        images = [np.array(c["image"]) for c in cropped_info]
+        # predict returns a list of results. For PP-FormulaNet, it's a list of strings (LaTeX formulas).
+        predictions = self.model.predict(input=images, batch_size=1)
+        
+        # Mapping predictions back to the original structure
+        final_output = []
+        pred_idx = 0
+        for page_data in math_coordinates:
+            new_page = page_data.copy()
+            new_boxes = []
+            for box in page_data.get("boxes", []):
+                new_box = box.copy()
+                if pred_idx < len(predictions):
+                    # Fill the 'text' field with the model's prediction
+                    new_box["text"] = predictions[pred_idx]
+                    pred_idx += 1
+                else:
+                    new_box["text"] = ""
+                new_boxes.append(new_box)
+            new_page["boxes"] = new_boxes
+            final_output.append(new_page)
+            
+        self.results = final_output
+        return final_output
+
+    def save_results(self, output_path):
+        if not self.results or not self.input_path:
+            return
+
+        os.makedirs(output_path, exist_ok=True)
+        pdf_name = os.path.splitext(os.path.basename(self.input_path))[0]
+        json_path = os.path.join(output_path, f"{pdf_name}_math_results.json")
+        
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(self.results, f, ensure_ascii=False, indent=4)
+
 class VLMExtract:
     def __init__(self):
+        self.model = PaddleOCRVL()
         self.input_path = None
-        self.cropped_images = None
-
-        # model_name = 'deepseek-ai/DeepSeek-OCR-2' 
-
-        # self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=False)
-        # self.model = AutoModel.from_pretrained(model_name, trust_remote_code=True, use_safetensors=True)
-
-        # self.dtype = torch.float16
-        # if torch.cuda.is_available():
-        #     self.device = "cuda"
-        #     if torch.cuda.is_bf16_supported():
-        #         self.dtype = torch.bfloat16
-        # else:
-        #     self.device = "cpu"
-
-        # self.model = self.model.eval().to(self.device).to(self.dtype)
-
-        # self.prompt = "<image>\n<|grounding|>Convert the document to markdown. "
-        # # self.image_file = 'your_image.jpg'
-        # # self.output_path = 'your/output/dir'        
-
+        self.cropped_images = None       
 
     def partial_extract(self, empty_coordinates):
         self.cropped_images = SectionCrop.crop(empty_coordinates)
@@ -242,43 +258,40 @@ class VLMExtract:
                 
         results = []
         for crop_data in self.cropped_images:
-            # image = crop_data["image"]
-            
-            # # Since model.infer expects a file path, save the PIL image to a temp file
-            # with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp_file:
-            #     image.save(tmp_file.name)
-            #     tmp_path = tmp_file.name
-                
-            # try:
-            #     res = self.model.infer(
-            #         self.tokenizer, 
-            #         prompt=self.prompt, 
-            #         image_file=tmp_path, 
-            #         output_path="", # Empty because we don't need to save the visual result unless specified
-            #         base_size=1024, 
-            #         image_size=768, 
-            #         crop_mode=True, 
-            #         save_results=False, 
-            #         test_compress=True
-            #     )
-            #     crop_data["text"] = res
-            # except Exception as e:
-            #     crop_data["text"] = f"Error: {e}"
-            # finally:
-            #     os.remove(tmp_path)
-            
-            # Placeholder text since inference is disabled
-            crop_data["text"] = "[VLM Inference Disabled]"
+            output = self.model.predict(input=crop_data["image"])
+            # Assuming output contains a textual result or markdown format
+            crop_data["text"] = output[0].get("text", "") 
             results.append(crop_data)
                 
+        self.empty_results = results
         return results
 
-    def full_extract(self):
-        pass
+    def full_extract(self, input_path):
+        self.input_path = input_path
+        self.full_results = self.model.predict(input=input_path)
+        return self.full_results        
 
 
-    def save_results(self, output_path):
-        if not self.cropped_images:
+    def save_partial_results(self, output_path):
+        if not self.cropped_images or not hasattr(self, 'empty_results'):
             return
         
         SectionCrop.save_images(self.cropped_images, output_path, self.input_path)
+
+        os.makedirs(output_path, exist_ok=True)
+            
+        pdf_name = os.path.splitext(os.path.basename(self.input_path))[0]
+            
+        json_path = os.path.join(output_path, f"{pdf_name}_text_empty_results.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(self.empty_results, f, ensure_ascii=False, indent=4)
+    
+    
+    def save_full_results(self, output_path):
+        if not hasattr(self, 'full_results') or not self.full_results:
+            return
+        
+        os.makedirs(output_path, exist_ok=True)
+        for res in self.full_results:
+            res.save_to_json(save_path=output_path)
+            res.save_to_markdown(save_path=output_path)
