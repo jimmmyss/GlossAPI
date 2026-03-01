@@ -3,7 +3,7 @@ from LayoutDetector import LayoutDetect
 from SectionExtractor import TextExtract, TableExtract, MathExtract, VLMExtract, Merge
 
 def main():
-    input_path = "pdfs/stress_test_no_text_layer.pdf"
+    input_path = "pdfs/test.pdf"
 
     text_extractor = TextExtract()
     # table_extractor = TableExtract()
@@ -12,8 +12,8 @@ def main():
 
     if Analyze.is_scanned(input_path):
         print("Scanned PDF")
-        vlm_extractor.full_extract(input_path)
-        vlm_extractor.save_full_results("output") # For visual debugging
+        # vlm_extractor.full_extract(input_path)
+        # vlm_extractor.save_full_results("output") # For visual debugging
 
     else:
         text_results, vlm_results, math_results = [], [], []
