@@ -8,7 +8,7 @@ import torch
 import fitz # PyMuPDF
 from PIL import Image
 from PostProcess import PostProcess
-from paddleocr import FormulaRecognition, PaddleOCRVL
+from paddleocr import FormulaRecognition, PaddleOCR
 
 class SectionCrop:
     @staticmethod
@@ -52,12 +52,10 @@ class SectionCrop:
     def save_images(cropped_images, output_path, input_path):
         os.makedirs(output_path, exist_ok=True)
         pdf_name = os.path.splitext(os.path.basename(input_path))[0]
-        
+
         for i, crop_data in enumerate(cropped_images, start=1):
-            label = crop_data["label"]
             image = crop_data["image"]
-            
-            filename = f"{pdf_name}_{label}_{i}.png"
+            filename = f"{pdf_name}_ocr_{i}.png"
             image_path = os.path.join(output_path, filename)
             image.save(image_path)
 
@@ -201,13 +199,14 @@ class MathExtract:
     def extract(self, math_coordinates):
         self.input_path = math_coordinates[0]["input_path"]
         cropped_info = SectionCrop.crop(math_coordinates)
+        self.cropped_images = cropped_info
         if not cropped_info:
             return []
             
         # FormulaRecognition only supports numpy.ndarray or str
         images = [np.array(c["image"]) for c in cropped_info]
         # predict returns a list of results. For PP-FormulaNet, it's a list of strings (LaTeX formulas).
-        predictions = self.model.predict(input=images, batch_size=4)
+        predictions = self.model.predict(input=images, batch_size=64)
         
         # Mapping predictions back to the original structure
         predictions = list(predictions)
@@ -236,6 +235,12 @@ class MathExtract:
 
         os.makedirs(output_path, exist_ok=True)
         pdf_name = os.path.splitext(os.path.basename(self.input_path))[0]
+
+        for i, crop_data in enumerate(self.cropped_images, start=1):
+            image = crop_data["image"]
+            image_path = os.path.join(output_path, f"{pdf_name}_formula_{i}.png")
+            image.save(image_path)
+
         json_path = os.path.join(output_path, f"{pdf_name}_math_results.json")
         
         with open(json_path, "w", encoding="utf-8") as f:
@@ -243,9 +248,14 @@ class MathExtract:
 
 class VLMExtract:
     def __init__(self):
-        self.model = PaddleOCRVL()
+        self.model = PaddleOCR(
+            lang="el",
+            use_doc_orientation_classify=False,
+            use_doc_unwarping=False,
+            use_textline_orientation=False,
+        )
         self.input_path = None
-        self.cropped_images = None       
+        self.cropped_images = None
 
     def partial_extract(self, empty_coordinates):
         self.input_path = empty_coordinates[0]["input_path"]
@@ -254,7 +264,7 @@ class VLMExtract:
         if not cropped_info:
             return []
 
-        images=[np.array(c["image"]) for c in cropped_info]
+        images = [np.array(c["image"]) for c in cropped_info]
         predictions = self.model.predict(input=images)
 
         final_output = []
@@ -266,8 +276,8 @@ class VLMExtract:
                 new_box = box.copy()
                 if pred_idx < len(predictions):
                     res_json = predictions[pred_idx].json["res"]
-                    blocks = res_json.get("parsing_res_list", [])
-                    new_box["result"] = "\n".join(b["block_content"] for b in blocks if b.get("block_content"))
+                    rec_texts = res_json.get("rec_texts", [])
+                    new_box["result"] = " ".join(rec_texts)
                     pred_idx += 1
                 else:
                     new_box["result"] = ""
@@ -281,28 +291,26 @@ class VLMExtract:
     def full_extract(self, input_path):
         self.input_path = input_path
         self.full_results = self.model.predict(input=input_path)
-        return self.full_results        
-
+        return self.full_results
 
     def save_partial_results(self, output_path):
         if not self.cropped_images or not hasattr(self, 'empty_results'):
             return
-        
+
         SectionCrop.save_images(self.cropped_images, output_path, self.input_path)
 
         os.makedirs(output_path, exist_ok=True)
-            
+
         pdf_name = os.path.splitext(os.path.basename(self.input_path))[0]
-            
+
         json_path = os.path.join(output_path, f"{pdf_name}_text_empty_results.json")
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(self.empty_results, f, ensure_ascii=False, indent=4)
-    
-    
+
     def save_full_results(self, output_path):
         if not hasattr(self, 'full_results') or not self.full_results:
             return
-        
+
         os.makedirs(output_path, exist_ok=True)
         for res in self.full_results:
             res.save_to_json(save_path=output_path)
