@@ -4,7 +4,9 @@
 - **Text** → PyMuPDF  
 - **Tables** → ?Table Transformer?, ??SLANet??, ???StructEqTable-Deploy???
 - **Math** → PP-FormulaNet_plus-L
-- **VLM** → PaddleOCR-VL-1.5  
+- **OCR** → PP-OCRv5_server_rec
+- **Post OCR Spell Correction** → ?Gemma‑2?, ?Qwen3‑1.7B?, ??Llama??, ???Bert???
+- **VLM** → ?PaddleOCR-VL-1.5?, ?olmOCR?
 
 # Progress
 
@@ -12,9 +14,10 @@
 - **Text Extraction** → 100%
 - **Table Extraction** → 0%
 - **Math** → 100%
-- **VLM Partial** → 100%
-- **VLM Full** → 50%
-- Post Process → 50%
+- **OCR** → 100%
+- **Post OCR Spell Correction** → 0%
+- **VLM** → 20%
+- **Post Process** → ??? %
 
 # To-Do
 
