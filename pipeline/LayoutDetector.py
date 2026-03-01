@@ -13,7 +13,7 @@ class LayoutDetect:
         self.model = LayoutDetection(model_name=model)
 
     def detect(self, input_path):
-        output = self.model.predict(input_path, batch_size=4, layout_nms=True, threshold=0.2)
+        output = self.model.predict(input_path, batch_size=128, layout_nms=True, threshold=0.2)
 
         layout_coordinates = []
         self.input_path = input_path
