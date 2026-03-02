@@ -1,0 +1,221 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.7 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.7">
+  <diagram name="Page-1" id="Jf_G6GDsT5r3lYPbJ8eR">
+    <mxGraphModel dx="6885" dy="2980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hMFmwuww870FyRKamIaA-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-2" target="hMFmwuww870FyRKamIaA-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-2" value="PDF ingestion" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-5" target="hMFmwuww870FyRKamIaA-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-260" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-5" target="hMFmwuww870FyRKamIaA-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-5" value="Check if the PDF has text layer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-7" target="hMFmwuww870FyRKamIaA-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-7" value="Detect the PDF document layout and order (PP-DocLayoutV3)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-8" value="Extract the whole PDF with VLM (DeepseekOCR, olmOCR)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-280" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-10" target="hMFmwuww870FyRKamIaA-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-10" value="JSON with coordinates for tables" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-760" y="730" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-12" target="hMFmwuww870FyRKamIaA-56">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-12" value="JSON with coordinates for regular text sections&lt;div&gt;(paragraphs, titles...)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="730" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-24" target="hMFmwuww870FyRKamIaA-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-24" target="hMFmwuww870FyRKamIaA-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-540" y="700" />
+              <mxPoint x="-700" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-24" target="hMFmwuww870FyRKamIaA-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-540" y="700" />
+              <mxPoint x="-860" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-24" value="Split and filter the layout results JSON&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;based on different sections&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="610" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-38" target="hMFmwuww870FyRKamIaA-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-38" target="hMFmwuww870FyRKamIaA-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-38" value="Check if the PDF is scanned (Bitmap element percentage)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="370" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-50" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-44" target="hMFmwuww870FyRKamIaA-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-44" value="JSON with coordinates for math and formulas" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-920" y="730" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-47" target="hMFmwuww870FyRKamIaA-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-47" value="Use the images and extract formulas to a LaTeX format (PP-FormulaNet_plus-L)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-920" y="970" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-49" target="hMFmwuww870FyRKamIaA-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-49" value="Crop specific sections and turn them into images" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-920" y="850" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-52" value="????" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-760" y="850" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-54" target="hMFmwuww870FyRKamIaA-87">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-510" y="1880" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-860" y="2020" />
+              <mxPoint x="-380" y="2020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-54" value="Export results to the JSON with the coordinates" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-920" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-56" target="hMFmwuww870FyRKamIaA-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-56" value="Assign text to corresponding layout container with&amp;nbsp;IoW and Smallest Area" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="850" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-59" target="hMFmwuww870FyRKamIaA-61">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-59" value="Extract text layer (PyMuPDF)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="970" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-61" target="hMFmwuww870FyRKamIaA-63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-61" target="hMFmwuww870FyRKamIaA-66">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-540" y="1200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-61" value="Export results to the JSON with the coordinates" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-63" target="hMFmwuww870FyRKamIaA-68">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-63" value="Empty sections split into a different JSON with empty text regions" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-66" target="hMFmwuww870FyRKamIaA-71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-66" value="Asses if the text layer produces good results (?BERT?)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="1210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-68" target="hMFmwuww870FyRKamIaA-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-68" value="Assign regions to correspinding bitmap elements" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-71" target="hMFmwuww870FyRKamIaA-81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-71" value="Post-process text output to have correct and unified structure" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="1330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-73" target="hMFmwuww870FyRKamIaA-75">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-73" value="Filter specific regions if they are a part of images or charts" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-75" target="hMFmwuww870FyRKamIaA-77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-75" value="Crop specific sections and turn them into images" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-77" target="hMFmwuww870FyRKamIaA-79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-77" value="Use the images and extract text (PP-OCRv5_server_det &amp;amp; server_rec)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1570" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-79" target="hMFmwuww870FyRKamIaA-83">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-79" value="Filter specific regions if they are a part of images or charts" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1690" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-81" target="hMFmwuww870FyRKamIaA-87">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-540" y="2020" />
+              <mxPoint x="-380" y="2020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-81" value="Export results to the JSON with the coordinates" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-600" y="1450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-83" target="hMFmwuww870FyRKamIaA-85">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-83" value="Spell and grammar check the results (with semantic&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;understanding)&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1810" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-85" target="hMFmwuww870FyRKamIaA-87">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-85" value="Export results to the JSON with the coordinates" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="1930" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-98" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-87" target="hMFmwuww870FyRKamIaA-96">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-87" value="Export results to the JSON with the coordinates" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="2050" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="hMFmwuww870FyRKamIaA-96" target="hMFmwuww870FyRKamIaA-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-96" value="Reconstruct each JSON output to a single unified one" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="2170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hMFmwuww870FyRKamIaA-99" value="Produce final JSON and MARKDOWN" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-440" y="2290" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
