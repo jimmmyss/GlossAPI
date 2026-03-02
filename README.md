@@ -4,7 +4,7 @@
 - **Text** → PyMuPDF  
 - **Tables** → ?Table Transformer?, ??SLANet??, ???StructEqTable-Deploy???
 - **Math** → PP-FormulaNet_plus-L
-- **OCR** → PP-OCRv5_server_rec
+- **OCR** → PP-OCRv5_server_det, PP-OCRv5_server_rec
 - **Post OCR Spell Correction** → Seq2Seq models, ?Gemma‑2?, ?Qwen3‑1.7B?, ??Llama??, ???Bert???
 - **VLM** → ?PaddleOCR-VL-1.5?, ?olmOCR?
 
