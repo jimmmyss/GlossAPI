@@ -14,3 +14,11 @@ class Analyze:
                         r = fitz.Rect(blk[:4])
                         text_area += abs(r.width * r.height)
             return text_area < img_area
+
+    @staticmethod
+    def has_text_layer(input_path):
+        with fitz.open(input_path) as pdf:
+            for page in pdf:
+                if page.get_text():
+                    return True
+            return False
