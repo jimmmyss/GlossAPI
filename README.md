@@ -24,3 +24,7 @@
 - **Model Fireup Order**
 - **Batch Calculation based on VRAM(if there is a gpu)**
 - **?Multiproccessing?**
+
+# Flowchart
+
+![Alt text](GlossAPI.drawio.png)
