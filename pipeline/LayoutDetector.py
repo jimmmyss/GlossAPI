@@ -4,13 +4,13 @@ import fitz
 from paddleocr import LayoutDetection
 
 class LayoutDetect:
-    TEXT_LABELS = {"text", "doc_title", "reference", "reference_content", "paragraph_title", "header", "abstract", "figure_title", "vertical_text", "algorithm"}
+    TEXT_LABELS = {"text", "doc_title", "reference", "reference_content", "paragraph_title", "abstract", "figure_title", "vertical_text", "algorithm", "footnote"}
     TABLE_LABELS = {"table"}
     MATH_LABELS = {"inline_formula", "display_formula"}
-    UNWANTED_LABELS = {"aside_text", "header_image", "footer_image", "formula_number", "number", "seal", "image", "content", "footnote", "vision_footnote", "footer", "chart"}
+    UNWANTED_LABELS = {"aside_text", "header_image", "footer_image", "formula_number", "number", "seal", "image", "content", "vision_footnote", "footer", "chart", "header"}
     
-    def __init__(self, model = "PP-DocLayoutV3"):
-        self.model = LayoutDetection(model_name=model)
+    def __init__(self):
+        self.model = LayoutDetection(model_name="PP-DocLayoutV3")
 
     def detect(self, input_path):
         output = self.model.predict(input_path, batch_size=128, layout_nms=True, threshold=0.2)
