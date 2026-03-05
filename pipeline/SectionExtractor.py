@@ -246,7 +246,7 @@ class MathExtract:
         with open(json_path, "w", encoding="utf-8") as f:
             f.write(json.dumps(self.results, ensure_ascii=False, indent=4).replace('\\\\', '\\'))
 
-class VLMExtract:
+class OCRExtract:
     def __init__(self):
         self.model = PaddleOCR(
             lang="el",
@@ -257,7 +257,7 @@ class VLMExtract:
         self.input_path = None
         self.cropped_images = None
 
-    def partial_extract(self, empty_coordinates):
+    def extract(self, empty_coordinates):
         self.input_path = empty_coordinates[0]["input_path"]
         cropped_info = SectionCrop.crop(empty_coordinates)
         self.cropped_images = cropped_info
@@ -288,12 +288,7 @@ class VLMExtract:
         self.empty_results = final_output
         return final_output
 
-    def full_extract(self, input_path):
-        self.input_path = input_path
-        self.full_results = self.model.predict(input=input_path)
-        return self.full_results
-
-    def save_partial_results(self, output_path):
+    def save_results(self, output_path):
         if not self.cropped_images or not hasattr(self, 'empty_results'):
             return
 
@@ -307,15 +302,15 @@ class VLMExtract:
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(self.empty_results, f, ensure_ascii=False, indent=4)
 
-    def save_full_results(self, output_path):
-        if not hasattr(self, 'full_results') or not self.full_results:
-            return
+class VLMExtract:
+    def __init__(self):
+        pass
 
-        os.makedirs(output_path, exist_ok=True)
-        for res in self.full_results:
-            res.save_to_json(save_path=output_path)
-            res.save_to_markdown(save_path=output_path)
+    def extract(self, empty_coordinates):
+        pass
 
+    def save_results(self, output_path):
+        pass
 
 class Merge:
     @staticmethod
