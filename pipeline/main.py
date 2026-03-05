@@ -3,20 +3,21 @@ from LayoutDetector import LayoutDetect
 from SectionExtractor import TextExtract, TableExtract, MathExtract, VLMExtract, Merge
 
 def main():
-    input_path = "pdfs/test.pdf"
+    input_path = "pdfs/OJ_L_202502360_EL_TXT.pdf"
 
     text_extractor = TextExtract()
     # table_extractor = TableExtract()
     math_extractor = MathExtract()
-    vlm_extractor = VLMExtract()
+    ocr_extractor = OCRExtract()
+    # vlm_extractor = VLMExtract()
 
     if Analyze.is_scanned(input_path):
         print("Scanned PDF")
-        # vlm_extractor.full_extract(input_path)
-        # vlm_extractor.save_full_results("output") # For visual debugging
+        # vlm_extractor.extract(input_path)
+        # vlm_extractor.save_results("output") # For visual debugging
 
     else:
-        text_results, vlm_results, math_results = [], [], []
+        text_results, ocr_results, math_results = [], [], []
 
         detector = LayoutDetect()
         layout_coordinates = detector.detect(input_path)
@@ -28,8 +29,8 @@ def main():
             text_extractor.save_results("output") # For visual debugging
 
             if text_results_empty:
-                vlm_results = vlm_extractor.partial_extract(text_results_empty)
-                vlm_extractor.save_partial_results("output") # For visual debugging
+                ocr_results = ocr_extractor.extract(text_results_empty)
+                ocr_extractor.save_results("output") # For visual debugging
 
         # if table_coordinates:
         #     table_extractor.extract(table_coordinates)
