@@ -5,8 +5,8 @@
 - **Tables** → ?Table Transformer?, ??SLANet??, ???StructEqTable-Deploy???
 - **Math** → PP-FormulaNet_plus-L
 - **OCR** → PP-OCRv5_server_det, PP-OCRv5_server_rec
-- **Post OCR Spell Correction** → Seq2Seq models, ?Gemma‑2?, ?Qwen3‑1.7B?, ??Llama??, ???Bert???
-- **VLM** → ?PaddleOCR-VL-1.5?, ?olmOCR?
+- **Post OCR Spell Correction** → ?Seq2Seq models?, ?Gemma‑2?, ?Qwen3‑1.7B?, ??Llama??, ???Bert???, ????HunSpell-Symspell????, ?????LanguageTool(Failed)?????
+- **VLM** → ?olmOCR?, ?dots.ocr-1.5?, ?PaddleOCR-VL-1.5?, ?Qwen3-VL?
 
 # Progress
 
@@ -17,13 +17,14 @@
 - **OCR** → 100%
 - **Post OCR Spell Correction** → 0%
 - **VLM** → 20%
-- **Post Process** → ??? %
+- **Post Process** → 0 %
 
 # To-Do
 
 - **Model Fireup Order**
 - **Batch Calculation based on VRAM(if there is a gpu)**
 - **?Multiproccessing?**
+- **vllm fireup for batching with vlm**
 
 # Flowchart
 
